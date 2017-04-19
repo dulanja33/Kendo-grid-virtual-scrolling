@@ -4,7 +4,9 @@
   "description": "Custom implementation of virtual scrolling in Kendo-grid to support grouping and editing",
   "main": "Kendo-Grid-VirtualScroll.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:umd": "webpack --output-filename Kendo-Grid-VirtualScroll.js",
+    "build:umd.min": "webpack --output-filename Kendo-Grid-VirtualScroll.min.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +26,8 @@
   "homepage": "https://github.com/dulanja33/Kendo-grid-virtual-scrolling#readme",
   "dependencies": {
     "jquery": "2.2.4"
+  },
+  "devDependencies": {
+    "webpack": "2.4.1"
   }
 }
