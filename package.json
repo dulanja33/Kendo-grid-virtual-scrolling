@@ -1,6 +1,6 @@
 {
   "name": "kendo-grid-virtual-scrolling",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Custom implementation of virtual scrolling in Kendo-grid to support grouping and editing",
   "main": "Kendo-Grid-VirtualScroll.js",
   "scripts": {
