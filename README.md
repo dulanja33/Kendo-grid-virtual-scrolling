@@ -2,7 +2,7 @@
 
 Custom implementation of virtual scrolling in Kendo-grid to support grouping and editing.
 
-##How to add 
+## How to add 
 
 ```javascript
 var kendoGridVS = require('kendo-grid-virtual-scrolling');
@@ -16,7 +16,7 @@ provide the ``` <version> ```
 <script src="https://unpkg.com/kendo-grid-virtual-scrolling@<version>/dist/Kendo-Grid-VirtualScroll.js"></script>
 ```
 
-##How to use
+## How to use
 
 Can be use inside dataBound event in Kendo-Grid.
 
@@ -38,4 +38,4 @@ dataBound: function(e){
 }
 ```
 
-####MIT License
+#### MIT License
