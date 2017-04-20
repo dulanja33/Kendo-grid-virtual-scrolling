@@ -7,7 +7,7 @@ module.exports = {
     // export to AMD, CommonJS, or window
     libraryTarget: 'umd',
     // set the following name if exporting to window
-    library: 'Kendo-Grid-VirtualScroll'
+    library: 'kendoGridVS'
   },
   externals: {
     // require("jquery") is external and available

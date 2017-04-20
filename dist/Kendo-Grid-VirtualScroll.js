@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define(["jQuery"], factory);
 	else if(typeof exports === 'object')
-		exports["Kendo-Grid-VirtualScroll"] = factory(require("jQuery"));
+		exports["kendoGridVS"] = factory(require("jQuery"));
 	else
-		root["Kendo-Grid-VirtualScroll"] = factory(root["jQuery"]);
+		root["kendoGridVS"] = factory(root["jQuery"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_0__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -217,72 +217,75 @@ var InfiniteScroll = (function () {
 
 
 var kendoGridVS = function (kendoOptions) {
+  var _data = null;
 
-  if (kendoOptions.initDataBound) {
-    var data = null;
+  var _dataSource = kendoOptions.gridElement.data('kendoGrid').dataSource;
+  var _gridContent = kendoOptions.gridElement.children(".k-grid-content");
 
-    var dataSource = kendoOptions.gridElement.data('kendoGrid').dataSource;
-    var gridContent = kendoOptions.gridElement.children(".k-grid-content");
+  var _totalRows = _dataSource.total();
+  var _pageSize  = _dataSource.pageSize();
+  var _group     = _dataSource.group();
+  var _isGrouped = false;
 
-    var _dataSourceQuery = function (params, callback, delayFire) {
-      dataSource.query(params).then(function (e) {
-        callback();
-        delayFire(false);
-      });
-    };
-
-    var _normalDataAppend = function () {
-      var view = dataSource.view();
-      for (var i = 0; i < view.length; i++) {
-        data.push(view[i]);
-      }
-      dataSource.data(data);
-    };
-
-    var _groupedDataAppend = function () {
-      var view = dataSource.view();
-
-
-      var lastCat = data[data.length - 1].value;
-      var newCat = view[0].value;
-      if (lastCat === newCat) {
-        var firstItems = view[0].items;
-        for (var i = 0; i < firstItems.length; i++) {
-          data[data.length - 1].items.push(firstItems[i]);
-        }
-        for (var j = 1; j < view.length; j++) {
-          data.push(view[j]);
-        }
-      } else {
-        for (var k = 0; k < view.length; k++) {
-          data.push(view[k]);
-        }
-      }
-      dataSource.data(data);
-    };
-
-    dataSource.page(1);
-    new InfiniteScroll(gridContent, {
-      callback: function (fireSequence, scrollDirection, delayFire) {
-        data = dataSource.data();
-        if ((Math.ceil(kendoOptions.totalRows / kendoOptions.pageSize) >= dataSource.page() + 1) && scrollDirection === 'next') {
-          if (!kendoOptions.isGrouped) {
-            _dataSourceQuery({
-              page: dataSource.page() + 1,
-              pageSize: kendoOptions.pageSize
-            }, _normalDataAppend, delayFire);
-          } else {
-            _dataSourceQuery({
-              page: dataSource.page() + 1,
-              pageSize: kendoOptions.pageSize,
-              group: {field: kendoOptions.groupField}
-            }, _groupedDataAppend, delayFire)
-          }
-        }
-      }
-    }).run();
+  if(typeof _group !== 'undefined' && _group.length > 0){
+    _isGrouped = true;
   }
-  return false;
+
+  var _dataSourceQuery = function (params, callback, delayFire) {
+    _dataSource.query(params).then(function (e) {
+      callback();
+      delayFire(false);
+    });
+  };
+
+  var _normalDataAppend = function () {
+    var view = _dataSource.view();
+    for (var i = 0; i < view.length; i++) {
+      _data.push(view[i]);
+    }
+    _dataSource.data(_data);
+  };
+
+  var _groupedDataAppend = function () {
+    var view = _dataSource.view();
+    var lastCat = _data[_data.length - 1].value;
+    var newCat = view[0].value;
+    if (lastCat === newCat) {
+      var firstItems = view[0].items;
+      for (var i = 0; i < firstItems.length; i++) {
+        _data[_data.length - 1].items.push(firstItems[i]);
+      }
+      for (var j = 1; j < view.length; j++) {
+        _data.push(view[j]);
+      }
+    } else {
+      for (var k = 0; k < view.length; k++) {
+        _data.push(view[k]);
+      }
+    }
+    _dataSource.data(_data);
+  };
+
+  _dataSource.page(1);
+  return new InfiniteScroll(_gridContent, {
+    callback: function (fireSequence, scrollDirection, delayFire) {
+      _data = _dataSource.data();
+      if ((Math.ceil(_totalRows / _pageSize) >= _dataSource.page() + 1) && scrollDirection === 'next') {
+        if (!_isGrouped) {
+          _dataSourceQuery({
+            page: _dataSource.page() + 1,
+            pageSize: _pageSize
+          }, _normalDataAppend, delayFire);
+        } else {
+          _dataSourceQuery({
+            page: _dataSource.page() + 1,
+            pageSize: _pageSize,
+            group: _group
+          }, _groupedDataAppend, delayFire)
+        }
+      }
+    }
+  }).run();
 };
 
 
