@@ -119,10 +119,13 @@ var InfiniteScroll = (function () {
     this.innerWrap = $(".infinite_scroll_inner_wrap", this.target);
     this.delayFire = function (value) {
       _this.fired = value;
-      $(_this.target).scrollTop(_this.lastScrollTop);
-    };
 
-    $(scope).scroll(function () {
+    };
+    this.adjustScrollTop = function () {
+      $(_this.target).scrollTop(0);
+    }
+
+    $(scope).off("scroll").on("scroll", function () {
       _this.detectTarget(scope);
       return _this.detectScrollDirection();
     });
@@ -215,6 +218,7 @@ var InfiniteScroll = (function () {
 
 })();
 
+var infiniteScrollObjcet = null;
 
 var kendoGridVS = function (kendoOptions) {
   var _data = null;
@@ -223,11 +227,11 @@ var kendoGridVS = function (kendoOptions) {
   var _gridContent = kendoOptions.gridElement.children(".k-grid-content");
 
   var _totalRows = _dataSource.total();
-  var _pageSize  = _dataSource.pageSize();
-  var _group     = _dataSource.group();
+  var _pageSize = _dataSource.pageSize();
+  var _group = _dataSource.group();
   var _isGrouped = false;
 
-  if(typeof _group !== 'undefined' && _group.length > 0){
+  if (typeof _group !== 'undefined' && _group.length > 0) {
     _isGrouped = true;
   }
 
@@ -266,31 +270,38 @@ var kendoGridVS = function (kendoOptions) {
     _dataSource.data(_data);
   };
 
-  _dataSource.page(1);
-  return new InfiniteScroll(_gridContent, {
+  if (infiniteScrollObjcet !== null) {
+    infiniteScrollObjcet.adjustScrollTop();
+  }
+
+  infiniteScrollObjcet = new InfiniteScroll(_gridContent, {
     callback: function (fireSequence, scrollDirection, delayFire) {
       _data = _dataSource.data();
       if ((Math.ceil(_totalRows / _pageSize) >= _dataSource.page() + 1) && scrollDirection === 'next') {
         if (!_isGrouped) {
           _dataSourceQuery({
             page: _dataSource.page() + 1,
-            pageSize: _pageSize
+            pageSize: _pageSize,
+            sort: _dataSource.sort()
           }, _normalDataAppend, delayFire);
         } else {
           _dataSourceQuery({
             page: _dataSource.page() + 1,
             pageSize: _pageSize,
-            group: _group
+            group: _group,
+            sort: _dataSource.sort()
           }, _groupedDataAppend, delayFire)
         }
       }
     }
-  }).run();
+  });
+
+  _dataSource.page(1);
+  return infiniteScrollObjcet.run();
 };
 
 
 module.exports = kendoGridVS;
-
 
 
 

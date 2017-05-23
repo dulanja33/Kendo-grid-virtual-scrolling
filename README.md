@@ -22,7 +22,20 @@ Can be use inside dataBound event in Kendo-Grid.
 
 ```javascript
 //set this as global variable and set true if grid is reload/change grouping etc..
-initDataBound = true; 
+initDataBound = true;
+```
+```javascript
+//when support sort, set initDataBound=true in sort event(Kendo grid event)
+ sort: function(e) {
+     initDataBound = true; 
+ }
+ ```
+ 
+ ```javascript
+ //when support group, set initDataBound=true in group event(Kendo grid event)
+  group: function(e) {
+      initDataBound = true; 
+  }
 ```
 <br/>
 
