@@ -31,11 +31,12 @@ var InfiniteScroll = (function () {
     this.innerWrap = $(".infinite_scroll_inner_wrap", this.target);
     this.delayFire = function (value) {
       _this.fired = value;
+      $(_this.target).scrollTop(_this.lastScrollTop);
 
     };
     this.adjustScrollTop = function () {
       $(_this.target).scrollTop(0);
-    }
+    };
 
     $(scope).off("scroll").on("scroll", function () {
       _this.detectTarget(scope);

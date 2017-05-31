@@ -119,6 +119,7 @@ var InfiniteScroll = (function () {
     this.innerWrap = $(".infinite_scroll_inner_wrap", this.target);
     this.delayFire = function (value) {
       _this.fired = value;
+      $(_this.target).scrollTop(_this.lastScrollTop);
 
     };
     this.adjustScrollTop = function () {

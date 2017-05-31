@@ -1,3 +1,9 @@
+<a href="https://scan.coverity.com/projects/dulanja33-kendo-grid-virtual-scrolling">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/12627/badge.svg"/>
+</a>
+
+<br/>
 # Kendo-grid-virtual-scrolling
 
 Custom implementation of virtual scrolling in Kendo-grid to support grouping and editing.
