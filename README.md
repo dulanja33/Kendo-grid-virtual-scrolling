@@ -4,6 +4,7 @@
 </a>
 
 <br/>
+
 # Kendo-grid-virtual-scrolling
 
 Custom implementation of virtual scrolling in Kendo-grid to support grouping and editing.
