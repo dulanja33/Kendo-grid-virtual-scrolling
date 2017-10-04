@@ -92,7 +92,6 @@ var InfiniteScroll = (function () {
   var defaults = {
     bottomPixels: 50,
     fireOnce: true,
-    intervalFrequency: 250,
     resetCounter: function () {
       return false;
     },
@@ -124,17 +123,11 @@ var InfiniteScroll = (function () {
     };
     this.adjustScrollTop = function () {
       $(_this.target).scrollTop(0);
-    }
+    };
 
     $(scope).off("scroll").on("scroll", function () {
       _this.detectTarget(scope);
-      return _this.detectScrollDirection();
-    });
-  }
-
-  InfiniteScroll.prototype.run = function () {
-    var _this = this;
-    return setInterval((function () {
+      _this.detectScrollDirection();
       if (_this.shouldTryFiring()) {
         _this.didScroll = false;
         if (_this.ceaseFireWhenNecessary()) {
@@ -147,8 +140,8 @@ var InfiniteScroll = (function () {
           return;
         }
       }
-    }), this.options.intervalFrequency);
-  };
+    });
+  }
 
   InfiniteScroll.prototype.detectTarget = function (scope) {
     this.target = scope;
@@ -298,7 +291,6 @@ var kendoGridVS = function (kendoOptions) {
   });
 
   _dataSource.page(1);
-  return infiniteScrollObjcet.run();
 };
 
 
